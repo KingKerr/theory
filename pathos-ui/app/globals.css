@@ -1,0 +1,216 @@
+:root {
+  --background: #07111a;
+  --background-elevated: #0c1722;
+  --panel: rgba(13, 21, 32, 0.82);
+  --panel-strong: rgba(17, 27, 40, 0.92);
+  --panel-soft: rgba(148, 163, 184, 0.06);
+  --border: rgba(148, 163, 184, 0.16);
+  --border-strong: rgba(148, 163, 184, 0.26);
+
+  --text: #f4f7fb;
+  --text-muted: rgba(214, 223, 235, 0.78);
+  --text-faint: rgba(148, 163, 184, 0.7);
+
+  --accent: #7dd3fc;
+  --accent-strong: #2dd4bf;
+  --accent-warm: #f59e0b;
+
+  --planner-bg: rgba(59, 130, 246, 0.08);
+  --planner-border: rgba(59, 130, 246, 0.28);
+  --risk-bg: rgba(245, 158, 11, 0.08);
+  --risk-border: rgba(245, 158, 11, 0.28);
+  --bull-bg: rgba(16, 185, 129, 0.08);
+  --bull-border: rgba(16, 185, 129, 0.28);
+  --bear-bg: rgba(244, 63, 94, 0.08);
+  --bear-border: rgba(244, 63, 94, 0.28);
+
+  --badge-bg: rgba(148, 163, 184, 0.08);
+  --badge-border: rgba(148, 163, 184, 0.18);
+
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 16px 40px rgba(0, 0, 0, 0.24);
+  --shadow-lg: 0 24px 72px rgba(0, 0, 0, 0.32);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  --content-width: 1240px;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(45, 212, 191, 0.06), transparent 24%),
+    radial-gradient(circle at 85% 10%, rgba(125, 211, 252, 0.08), transparent 20%),
+    linear-gradient(180deg, #050a11 0%, #08111a 48%, #0a121c 100%);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono);
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(125, 211, 252, 0.24);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.9);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.app-shell {
+  min-height: 100dvh;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(18px);
+  background: rgba(6, 12, 19, 0.72);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.app-header__inner {
+  width: min(var(--content-width), calc(100% - 32px));
+  margin: 0 auto;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+}
+
+.brand-mark__glyph {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #a5f3fc 0%, #2dd4bf 100%);
+  box-shadow:
+    0 0 0 6px rgba(45, 212, 191, 0.1),
+    0 8px 22px rgba(45, 212, 191, 0.18);
+}
+
+.brand-mark__text {
+  font-size: 0.98rem;
+  font-weight: 620;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.app-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.status-pill__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent-strong);
+}
+
+.app-main {
+  width: min(var(--content-width), calc(100% - 32px));
+  margin: 0 auto;
+}
+
+@media (max-width: 720px) {
+  .app-header__inner,
+  .app-main {
+    width: min(var(--content-width), calc(100% - 24px));
+  }
+
+  .brand-mark__text {
+    font-size: 0.92rem;
+  }
+
+  .status-pill {
+    padding: 0 12px;
+    font-size: 0.82rem;
+  }
+}

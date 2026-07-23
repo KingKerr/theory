@@ -1,0 +1,77 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(148, 163, 184, 0.08);
+  color: #dbe4ef;
+  font-size: 0.76rem;
+  line-height: 1;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.round {
+  background: rgba(148, 163, 184, 0.08);
+  border-color: rgba(148, 163, 184, 0.14);
+  color: rgba(226, 232, 240, 0.86);
+}
+
+.agent,
+.side {
+  position: relative;
+  padding-left: 12px;
+}
+
+.agent::before,
+.side::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.9;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+}
+
+.planner {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.18);
+  color: #bfdbfe;
+}
+
+.risk {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.18);
+  color: #fde68a;
+}
+
+.judge {
+  background: rgba(45, 212, 191, 0.1);
+  border-color: rgba(45, 212, 191, 0.18);
+  color: #ccfbf1;
+}
+
+.bull {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.18);
+  color: #a7f3d0;
+}
+
+.bear {
+  background: rgba(244, 63, 94, 0.1);
+  border-color: rgba(244, 63, 94, 0.18);
+  color: #fda4af;
+}
+
+@media (max-width: 720px) {
+  .badge {
+    min-height: 26px;
+    font-size: 0.72rem;
+    padding: 0 9px;
+  }
+}
