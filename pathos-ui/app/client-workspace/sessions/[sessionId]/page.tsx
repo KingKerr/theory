@@ -6,6 +6,7 @@ import { SessionQualityMetrics } from "@/components/session-quality-metrics";
 import { SessionMemoryTimeline } from "@/components/session-memory-timeline";
 import { LatestJudgeVerdict } from "@/components/latest-judge-verdict";
 import styles from "./session-page.module.css";
+export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ sessionId: string }>;

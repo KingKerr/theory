@@ -10,6 +10,20 @@ export type QualityMetrics = {
   judge_check_count: number;
 }
 
+export type SessionMetadata = {
+  session_id: string;
+  ticker: string;
+  mode: string;
+  status?: string;
+  created_at?: string | null;
+  updated_at?: string | null;
+};
+
+export type EvidenceItem = {
+  evidence_id: string;
+  [key: string]: unknown;
+};
+
 export type SessionDetailResponse = {
   metadata: SessionMetadata;
   world_state: WorldState;
@@ -17,7 +31,7 @@ export type SessionDetailResponse = {
   actions: AgentAction[];
   claims: Claim[];
   controls: Record<string, unknown>;
-  memory_summary: Record<string, unknown>;
+  memory_summary: MemorySummary;
   quality_metrics: QualityMetrics;
 };
 
@@ -90,6 +104,7 @@ export type SessionListItem = {
   session_id: string;
   ticker: string;
   mode: string;
+  status: string;
   updated_at?: string | null;
   total_actions: number;
   total_claims: number;

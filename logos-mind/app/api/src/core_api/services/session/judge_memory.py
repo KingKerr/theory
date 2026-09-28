@@ -21,12 +21,20 @@ def build_judge_summary_episode(
         None,
     )
 
+    verdict = claim.thesis if claim else "No verdict claim was produced."
+
     summary = (
-        f"JudgeAgent evaluated the debate turn with confidence {action.confidence:.2f}. "
-        f"Distinct evidence: {distinct_evidence['status'] if distinct_evidence else 'n/a'}. "
-        f"Contradiction quality: {contradiction_quality['status'] if contradiction_quality else 'n/a'}. "
-        f"Unsupported repetition: {unsupported_repetition['status'] if unsupported_repetition else 'n/a'}."
+        f"JudgeAgent issued a debate verdict with confidence "
+        f"{action.confidence:.2f}. Verdict: {verdict} "
+        f"Distinct evidence: "
+        f"{distinct_evidence['status'] if distinct_evidence else 'n/a'}. "
+        f"Contradiction quality: "
+        f"{contradiction_quality['status'] if contradiction_quality else 'n/a'}. "
+        f"Unsupported repetition: "
+        f"{unsupported_repetition['status'] if unsupported_repetition else 'n/a'}."
     )
+
+    
 
     return {
         "episode_id": uuid4(),

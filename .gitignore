@@ -54,3 +54,6 @@ artifacts/
 output/
 *.duckdb
 docs/
+/theory-schema.sql
+
+/logos-mind/app/research

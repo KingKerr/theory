@@ -1,6 +1,6 @@
 from sqlalchemy import select, desc, insert, func
 from sqlalchemy.ext.asyncio import AsyncSession
-from uuid import uuid4
+from uuid import uuid4, UUID
 
 from db.models import (
     SessionMemoryEpisodeORM,
@@ -327,6 +327,7 @@ class SessionRepository:
 
         actions = [
             AgentAction(
+                round_no=row.round_no,
                 agent_name=row.agent_name,
                 action_type=row.action_type,
                 rationale=row.rationale,
@@ -339,11 +340,17 @@ class SessionRepository:
         claims = [
             Claim(
                 claim_id=row.claim_id,
+                round_no=row.round_no,
                 side=row.side,
                 thesis=row.thesis,
                 confidence=row.confidence,
                 evidence_ids=row.evidence_ids or [],
                 status=row.status,
+                claim_type=row.claim_type,
+                target_claim_ids=[
+                    UUID(str(target_claim_id))
+                    for target_claim_id in (row.target_claim_ids or [])
+                ],
             )
             for row in claim_rows
         ]
@@ -485,6 +492,11 @@ class SessionRepository:
                 confidence=row.confidence,
                 evidence_ids=row.evidence_ids or [],
                 status=row.status,
+                claim_type=row.claim_type,
+                target_claim_ids=[
+                    UUID(str(target_claim_id))
+                    for target_claim_id in (row.target_claim_ids or [])
+                ],
             )
             for row in claim_rows
         ]
@@ -520,7 +532,7 @@ class SessionRepository:
         max_round = result.scalar_one_or_none()
         return 1 if max_round is None else max_round + 1
 
-    async def get_recent_evidence_items(self, session_id, limit: int = 3) -> list[EvidenceItem]:
+    async def get_recent_evidence_items(self, session_id, limit: int = 8) -> list[EvidenceItem]:
         stmt = (
             select(EvidenceItemORM)
             .where(EvidenceItemORM.session_id == session_id)
@@ -567,6 +579,10 @@ class SessionRepository:
             confidence=claim.confidence,
             evidence_ids=claim.evidence_ids,
             status=claim.status,
+            claim_type=claim.claim_type,
+            target_claim_ids=[
+                str(target_claim_id) for target_claim_id in claim.target_claim_ids
+            ],
         )
         self.db.add(row)
 
@@ -589,15 +605,45 @@ class SessionRepository:
             confidence=row.confidence,
             evidence_ids=row.evidence_ids or [],
             status=row.status,
+            claim_type=row.claim_type, 
+            target_claim_ids=[
+                UUID(str(target_claim_id))
+                for target_claim_id in (row.target_claim_ids or [])
+            ],
         )
 
-    async def get_recent_claims(self, session_id, limit: int = 2) -> list[Claim]:
+    async def get_recent_claims(
+        self,
+        session_id: UUID,
+        *,
+        round_no: int | None = None,
+        claim_type: str | None = None,
+        status: str | None = None,
+        side: str | None = None,
+        limit: int = 3,) -> list[Claim]:
+        stmt = select(AgentClaimORM).where(
+            AgentClaimORM.session_id == session_id,
+            )
+
+        if side is not None:
+            stmt = stmt.where(AgentClaimORM.side == side)
+
+        if round_no is not None:
+            stmt = stmt.where(AgentClaimORM.round_no == round_no)
+
+        if claim_type is not None:
+            stmt = stmt.where(AgentClaimORM.claim_type == claim_type)
+
+        if status is not None:
+            stmt = stmt.where(AgentClaimORM.status == status)
+
         stmt = (
-            select(AgentClaimORM)
-            .where(AgentClaimORM.session_id == session_id)
-            .order_by(desc(AgentClaimORM.round_no), desc(AgentClaimORM.created_at))
-            .limit(limit)
-        )
+            stmt.order_by(
+                desc(AgentClaimORM.round_no),
+                desc(AgentClaimORM.created_at),
+            ).limit(limit)
+            )
+
         result = await self.db.execute(stmt)
         rows = list(result.scalars().all())
 
@@ -608,8 +654,15 @@ class SessionRepository:
                 side=row.side,
                 thesis=row.thesis,
                 confidence=row.confidence,
-                evidence_ids=row.evidence_ids or [],
+                evidence_ids=[
+                UUID(str(evidence_id))
+                for evidence_id in (row.evidence_ids or [])],
                 status=row.status,
+                claim_type=row.claim_type,
+                target_claim_ids=[
+                UUID(str(target_claim_id))
+                for target_claim_id in (row.target_claim_ids or [])
+                ],
             )
             for row in rows
         ]

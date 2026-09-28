@@ -12,6 +12,10 @@ app = FastAPI(
     version="0.1.0",
 )
 
+@app.get("/health", include_in_schema=False)
+async def health() -> dict[str, str]:
+    return {"status": "ok"}
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origin_list,

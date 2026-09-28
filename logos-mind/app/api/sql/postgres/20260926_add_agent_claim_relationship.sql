@@ -1,0 +1,3 @@
+ALTER TABLE agent_claim
+  ADD COLUMN IF NOT EXISTS claim_type VARCHAR(32) NOT NULL DEFAULT 'opening',
+  ADD COLUMN IF NOT EXISTS target_claim_ids JSONB NOT NULL DEFAULT '[]'::jsonb;

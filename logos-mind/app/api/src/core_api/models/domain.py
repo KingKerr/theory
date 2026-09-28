@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from typing import Literal
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -44,9 +45,17 @@ class Claim(BaseModel):
     round_no: int | None = None 
     side: str
     thesis: str
-    confidence: float = 0.0
+    confidence: float
     evidence_ids: list[UUID] = Field(default_factory=list)
-    status: str = "active"
+    status: str
+    claim_type: Literal[
+        "opening",
+        "rebuttal",
+        "concession",
+        "synthesis",
+        "verdict",
+    ] = "opening"
+    target_claim_ids: list[UUID] = Field(default_factory=list)
 
 
 class SessionState(BaseModel):

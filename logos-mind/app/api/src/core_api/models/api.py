@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from uuid import UUID
 from pydantic import BaseModel, Field
+from typing import Literal
 from .domain import SessionState, AgentAction, Claim, EvidenceItem, WorldState
 
 
@@ -53,6 +54,7 @@ class StepSessionResponse(BaseModel):
     claim: Claim | None = None
     controls: dict = Field(default_factory=dict)
     stepped_at: datetime
+    phase: str 
 
 class SessionListItemResponse(BaseModel):
     session_id: UUID
@@ -67,3 +69,5 @@ class SessionListItemResponse(BaseModel):
 
 class SessionListResponse(BaseModel):
     sessions: list[SessionListItemResponse]
+
+

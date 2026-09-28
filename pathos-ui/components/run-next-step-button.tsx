@@ -28,8 +28,8 @@ export function RunNextStepButton({
     setIsRunning(true);
 
     try {
-      await stepSession(sessionId, maxEvidenceItems);
-
+      const result = await stepSession(sessionId, maxEvidenceItems);
+      console.info("stepSession result:", result);
       startTransition(() => {
         router.refresh();
       });

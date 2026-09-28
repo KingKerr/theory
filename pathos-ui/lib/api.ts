@@ -7,6 +7,20 @@ import {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:8000/api/v1";
 
+type SessionsApiResponse = {
+  sessions?: Array<{
+    session_id?: string;
+    ticker?: string;
+    mode?: string | null;
+    status?: string | null;
+    created_at?: string | null;
+    updated_at?: string | null;
+    total_actions?: number | null;
+    total_claims?: number | null;
+    total_episodes?: number | null;
+  }>;
+};
+
 export async function createSession(ticker: string): Promise<CreateSessionResponse> {
   const res = await fetch(`${API_BASE}/sessions`, {
     method: "POST",
@@ -37,13 +51,13 @@ export async function getSessions(): Promise<SessionListItem[]> {
     throw new Error(`Failed to fetch sessions: ${res.status}`);
   }
 
-  const data = await res.json();
+  const data: SessionsApiResponse = await res.json();
   const sessions = Array.isArray(data.sessions) ? data.sessions : [];
 
   return sessions
     .map((session) => ({
-      session_id: String(session.session_id),
-      ticker: String(session.ticker),
+      session_id: String(session.session_id ?? ""),
+      ticker: String(session.ticker ?? ""),
       mode: String(session.mode ?? "debate"),
       status: String(session.status ?? "unknown"),
       created_at: String(session.created_at ?? ""),

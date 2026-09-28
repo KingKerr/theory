@@ -1,7 +1,6 @@
 from datetime import datetime, date
 from uuid import uuid4
-
-from sqlalchemy import Date, DateTime, ForeignKey, Integer, Text, func
+from sqlalchemy import Date, DateTime, ForeignKey, Integer, text, func, String, Text
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -94,6 +93,18 @@ class AgentClaimORM(Base):
     evidence_ids: Mapped[list[str]] = mapped_column(ARRAY(UUID(as_uuid=True)), nullable=False, default=list)
     status: Mapped[str] = mapped_column(Text, nullable=False, default="active")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    claim_type = mapped_column(
+        String(32),
+        nullable=False,
+        default="opening",
+        server_default="opening",
+    )
+    target_claim_ids = mapped_column(
+        JSONB, 
+        nullable=False, 
+        default=list,
+        server_default=text("'[]'::jsonb"),
+    )
 
 class SessionMemoryEpisodeORM(Base):
     __tablename__ = "session_memory_episode"

@@ -41,6 +41,7 @@ export function TickerLaunchForm() {
           inputMode="text"
           autoCapitalize="characters"
           autoCorrect="off"
+          autoComplete="off"
           spellCheck={false}
           placeholder="Enter ticker, e.g. NVDA"
           value={ticker}
